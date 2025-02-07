@@ -44,6 +44,8 @@
             this.BTN_Calculate = new System.Windows.Forms.Button();
             this.RTB_Result = new System.Windows.Forms.RichTextBox();
             this.BTN_MoreDetails = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // TB_Atk
@@ -68,14 +70,14 @@
             this.TB_Spatk.Location = new System.Drawing.Point(120, 180);
             this.TB_Spatk.Name = "TB_Spatk";
             this.TB_Spatk.Size = new System.Drawing.Size(100, 20);
-            this.TB_Spatk.TabIndex = 2;
+            this.TB_Spatk.TabIndex = 3;
             // 
             // TB_Spd
             // 
             this.TB_Spd.Location = new System.Drawing.Point(120, 140);
             this.TB_Spd.Name = "TB_Spd";
             this.TB_Spd.Size = new System.Drawing.Size(100, 20);
-            this.TB_Spd.TabIndex = 3;
+            this.TB_Spd.TabIndex = 2;
             // 
             // TB_Spdef
             // 
@@ -94,6 +96,7 @@
             // LBL_Atk
             // 
             this.LBL_Atk.AutoSize = true;
+            this.LBL_Atk.BackColor = System.Drawing.Color.Transparent;
             this.LBL_Atk.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_Atk.Location = new System.Drawing.Point(44, 63);
             this.LBL_Atk.Name = "LBL_Atk";
@@ -104,6 +107,7 @@
             // LBL_Spd
             // 
             this.LBL_Spd.AutoSize = true;
+            this.LBL_Spd.BackColor = System.Drawing.Color.Transparent;
             this.LBL_Spd.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_Spd.Location = new System.Drawing.Point(44, 143);
             this.LBL_Spd.Name = "LBL_Spd";
@@ -114,6 +118,7 @@
             // LBL_Def
             // 
             this.LBL_Def.AutoSize = true;
+            this.LBL_Def.BackColor = System.Drawing.Color.Transparent;
             this.LBL_Def.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_Def.Location = new System.Drawing.Point(44, 103);
             this.LBL_Def.Name = "LBL_Def";
@@ -124,6 +129,7 @@
             // LBL_Spdef
             // 
             this.LBL_Spdef.AutoSize = true;
+            this.LBL_Spdef.BackColor = System.Drawing.Color.Transparent;
             this.LBL_Spdef.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_Spdef.Location = new System.Drawing.Point(44, 223);
             this.LBL_Spdef.Name = "LBL_Spdef";
@@ -134,6 +140,7 @@
             // LBL_Spatk
             // 
             this.LBL_Spatk.AutoSize = true;
+            this.LBL_Spatk.BackColor = System.Drawing.Color.Transparent;
             this.LBL_Spatk.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_Spatk.Location = new System.Drawing.Point(44, 183);
             this.LBL_Spatk.Name = "LBL_Spatk";
@@ -144,6 +151,7 @@
             // LBL_HP
             // 
             this.LBL_HP.AutoSize = true;
+            this.LBL_HP.BackColor = System.Drawing.Color.Transparent;
             this.LBL_HP.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_HP.Location = new System.Drawing.Point(44, 263);
             this.LBL_HP.Name = "LBL_HP";
@@ -158,61 +166,80 @@
             this.BTN_Calculate.Location = new System.Drawing.Point(120, 300);
             this.BTN_Calculate.Name = "BTN_Calculate";
             this.BTN_Calculate.Size = new System.Drawing.Size(100, 25);
-            this.BTN_Calculate.TabIndex = 12;
+            this.BTN_Calculate.TabIndex = 6;
             this.BTN_Calculate.Text = "Calculate";
             this.BTN_Calculate.UseVisualStyleBackColor = false;
             this.BTN_Calculate.Click += new System.EventHandler(this.BTN_Calculate_Click);
             // 
             // RTB_Result
             // 
-            this.RTB_Result.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.RTB_Result.BackColor = System.Drawing.Color.White;
             this.RTB_Result.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.RTB_Result.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_Result.Location = new System.Drawing.Point(267, 63);
+            this.RTB_Result.Location = new System.Drawing.Point(250, 61);
             this.RTB_Result.Name = "RTB_Result";
             this.RTB_Result.ReadOnly = true;
-            this.RTB_Result.Size = new System.Drawing.Size(405, 202);
+            this.RTB_Result.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.RTB_Result.Size = new System.Drawing.Size(405, 168);
             this.RTB_Result.TabIndex = 13;
+            this.RTB_Result.TabStop = false;
             this.RTB_Result.Text = "Welcome to Deita\'s IV Probability Calculator for PRO!\n\nEnter your desired IVs and" +
     " click \"Calculate\"!";
             // 
             // BTN_MoreDetails
             // 
-            this.BTN_MoreDetails.Location = new System.Drawing.Point(377, 295);
+            this.BTN_MoreDetails.Location = new System.Drawing.Point(393, 254);
             this.BTN_MoreDetails.Name = "BTN_MoreDetails";
             this.BTN_MoreDetails.Size = new System.Drawing.Size(100, 30);
-            this.BTN_MoreDetails.TabIndex = 0;
+            this.BTN_MoreDetails.TabIndex = 7;
             this.BTN_MoreDetails.Text = "More Details";
             this.BTN_MoreDetails.UseVisualStyleBackColor = true;
+            this.BTN_MoreDetails.Visible = false;
             this.BTN_MoreDetails.Click += new System.EventHandler(this.BTN_MoreDetails_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(-12, -24);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(699, 421);
+            this.pictureBox1.TabIndex = 14;
+            this.pictureBox1.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.ClientSize = new System.Drawing.Size(680, 377);
-            this.Controls.Add(this.BTN_MoreDetails);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(684, 381);
             this.Controls.Add(this.RTB_Result);
-            this.Controls.Add(this.BTN_Calculate);
+            this.Controls.Add(this.LBL_Atk);
             this.Controls.Add(this.LBL_HP);
             this.Controls.Add(this.LBL_Spatk);
             this.Controls.Add(this.LBL_Spdef);
             this.Controls.Add(this.LBL_Def);
             this.Controls.Add(this.LBL_Spd);
-            this.Controls.Add(this.LBL_Atk);
+            this.Controls.Add(this.BTN_MoreDetails);
+            this.Controls.Add(this.BTN_Calculate);
             this.Controls.Add(this.TB_HP);
             this.Controls.Add(this.TB_Spdef);
             this.Controls.Add(this.TB_Spd);
             this.Controls.Add(this.TB_Spatk);
             this.Controls.Add(this.TB_Def);
             this.Controls.Add(this.TB_Atk);
+            this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(700, 420);
             this.MinimumSize = new System.Drawing.Size(700, 420);
             this.Name = "Form1";
             this.Text = "Deita\'s IV Probability Calculator for PRO";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -235,6 +262,7 @@
         private System.Windows.Forms.Button BTN_Calculate;
         private System.Windows.Forms.RichTextBox RTB_Result;
         private System.Windows.Forms.Button BTN_MoreDetails;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

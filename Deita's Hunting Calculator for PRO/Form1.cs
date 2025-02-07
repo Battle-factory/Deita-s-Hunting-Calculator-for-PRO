@@ -83,6 +83,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                 MessageBox.Show("Please enter IVs for all fields.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            this.BTN_MoreDetails.Visible = true;
 
             int minAtk = int.Parse(TB_Atk.Text);
             int minDef = int.Parse(TB_Def.Text);
@@ -111,7 +112,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                              $"Probability of SPDEF >= {minSpdef}: {spdefProb:P}\n" +
                              $"Probability of SPD >= {minSpd}: {spdProb:P}\n" +
                              $"Probability of HP >= {minHP}: {hpProb:P}\n" +
-                             $"Combined Probability: {combinedProb:P}\n\n";
+                             $"Combined Probability: {combinedProb:P6}\n\n";
 
             RTB_Result.Text = $"Expected Number of Pokémon to Catch: {Math.Round(expectedPokemon):N0}\n";
         }
@@ -120,6 +121,13 @@ namespace Deita_s_Hunting_Calculator_for_PRO
         private void BTN_MoreDetails_Click(object sender, EventArgs e)
         {
             RTB_Result.Text += detailedResult;
+            this.BTN_MoreDetails.Visible = false;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // Send the Wailord PictureBox to the back
+            pictureBox1.SendToBack();
         }
     }
 }
