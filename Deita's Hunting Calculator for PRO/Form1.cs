@@ -129,5 +129,25 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             // Send the Wailord PictureBox to the back
             pictureBox1.SendToBack();
         }
+
+        private void LBL_Atk_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TB_Def_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
