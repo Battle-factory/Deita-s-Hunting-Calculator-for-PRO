@@ -75,6 +75,8 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             return (maxIV - minIV + 1) / 31.0;
         }
 
+        private bool isDetailedView = false;
+
         // Handle button click event to calculate and display results
         private void BTN_Calculate_Click(object sender, EventArgs e)
         {
@@ -83,27 +85,95 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                 MessageBox.Show("Please enter IVs for all fields.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            this.BTN_MoreDetails.Visible = true;
 
+            // Parse IV values from input fields
             int minAtk = int.Parse(TB_Atk.Text);
             int minDef = int.Parse(TB_Def.Text);
             int minSpatk = int.Parse(TB_Spatk.Text);
             int minSpdef = int.Parse(TB_Spdef.Text);
             int minSpd = int.Parse(TB_Spd.Text);
             int minHP = int.Parse(TB_HP.Text);
+            int maxAtk = 31;
 
-            double atkProb = CalculateProbability(minAtk, 31);
-            double defProb = CalculateProbability(minDef, 31);
-            double spatkProb = CalculateProbability(minSpatk, 31);
-            double spdefProb = CalculateProbability(minSpdef, 31);
-            double spdProb = CalculateProbability(minSpd, 31);
-            double hpProb = CalculateProbability(minHP, 31);
+            // Calculate individual IV probabilities
+            double atkProb = CalculateProbability(minAtk, maxAtk);
+            double defProb = CalculateProbability(minDef, maxAtk);
+            double spatkProb = CalculateProbability(minSpatk, maxAtk);
+            double spdefProb = CalculateProbability(minSpdef, maxAtk);
+            double spdProb = CalculateProbability(minSpd, maxAtk);
+            double hpProb = CalculateProbability(minHP, maxAtk);
 
-            // Combine the probabilities by multiplying them
-            double combinedProb = atkProb * defProb * spatkProb * spdefProb * spdProb * hpProb;
+            // Combine the IV probabilities by multiplying them
+            double combinedIVProb = atkProb * defProb * spatkProb * spdefProb * spdProb * hpProb;
+
+            // Calculate Preferred Ability Probability based on CB_BMS and CB_Ability selections
+            double hiddenAbilityChance = CB_BMS.SelectedItem.ToString() == "Yes" ? 0.25 : 0.05;
+            double preferredAbilityProb;
+
+            string selectedAbility = CB_Ability.SelectedItem.ToString();
+            if (selectedAbility == "Primary Abilities Only")
+            {
+                preferredAbilityProb = 1 - hiddenAbilityChance;
+            }
+            else if (selectedAbility == "1/2 Primary Abilities")
+            {
+                preferredAbilityProb = (1 - hiddenAbilityChance) / 2;
+            }
+            else if (selectedAbility == "1/2 Primary Abilities + H.A.")
+            {
+                preferredAbilityProb = ((1 - hiddenAbilityChance) / 2) + hiddenAbilityChance;
+            }
+            else if (selectedAbility == "Hidden Ability Only")
+            {
+                preferredAbilityProb = hiddenAbilityChance;
+            }
+            else
+            {
+                preferredAbilityProb = 1; // Assuming "Any" or invalid selection
+            }
+
+            // Get the selected value from CB_Nature and adjust the probability
+            string selectedNature = CB_Nature.SelectedItem.ToString();
+            double natureProb;
+            if (selectedNature == "Any")
+            {
+                natureProb = 1;
+            }
+            else
+            {
+                int natureValue = int.Parse(selectedNature);
+                natureProb = 0.5 + (natureValue - 1) / 24.0;
+            }
+
+            // Calculate Preferred Hidden Power Probability based on CB_HiddenPower selections
+            double hiddenPowerProb;
+            string selectedHiddenPower = CB_HiddenPower.SelectedItem.ToString();
+            switch (selectedHiddenPower)
+            {
+                case "Fighting":
+                    hiddenPowerProb = 0.078125;
+                    break;
+                case "Flying":case "Poison":case "Ground":case "Rock":case "Ghost":case "Steel":case "Fire":case "Water":case "Electric":case "Ice": case "Dragon":case "Psychic":
+                    hiddenPowerProb = 0.0625;
+                    break;
+                case "Bug":case "Grass":
+                    hiddenPowerProb = 0.078125;
+                    break;
+                case "Dark":
+                    hiddenPowerProb = 0.015625;
+                    break;
+                case "Any":
+                    hiddenPowerProb = 1;
+                    break;
+                default:
+                    hiddenPowerProb = 1; // Default to 100% if "Any" or invalid selection
+                    break;
+            }
+            // Calculate the total combined probability
+            double totalCombinedProb = combinedIVProb * natureProb * preferredAbilityProb * hiddenPowerProb;
 
             // Calculate the expected number of Pokémon to catch
-            double expectedPokemon = 1 / combinedProb;
+            double expectedPokemon = 1 / totalCombinedProb;
 
             // Store detailed results
             detailedResult = $"\nProbability of ATK >= {minAtk}: {atkProb:P}\n" +
@@ -111,43 +181,136 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                              $"Probability of SPATK >= {minSpatk}: {spatkProb:P}\n" +
                              $"Probability of SPDEF >= {minSpdef}: {spdefProb:P}\n" +
                              $"Probability of SPD >= {minSpd}: {spdProb:P}\n" +
-                             $"Probability of HP >= {minHP}: {hpProb:P}\n" +
-                             $"Combined Probability: {combinedProb:P6}\n\n";
+                             $"Probability of HP >= {minHP}: {hpProb:P}\n\n" +
+                             $"Combined IV Probability: {combinedIVProb:P6}\n" +
+                             $"Preferred Ability Probability: {preferredAbilityProb:P}\n" +
+                             $"Preferred Nature Probability: {natureProb:P}\n" +
+                             $"Preferred Hidden Power Probability: {hiddenPowerProb:P}\n\n" +
+                             $"Total Combined Probability: {totalCombinedProb:P10}\n\n";
 
+            // Show simplified view by default
             RTB_Result.Text = $"Expected Number of Pokémon to Catch: {Math.Round(expectedPokemon):N0}\n";
+            BTN_MoreDetails.Text = "Details";
+            BTN_MoreDetails.Visible = true;
         }
 
         // Handle the More Details button click event to display additional information
+        // Handle the More Details button click event to display additional information
         private void BTN_MoreDetails_Click(object sender, EventArgs e)
         {
-            RTB_Result.Text += detailedResult;
-            this.BTN_MoreDetails.Visible = false;
+            if (isDetailedView)
+            {
+                // Show simplified view
+                int minAtk = int.Parse(TB_Atk.Text);
+                int minDef = int.Parse(TB_Def.Text);
+                int minSpatk = int.Parse(TB_Spatk.Text);
+                int minSpdef = int.Parse(TB_Spdef.Text);
+                int minSpd = int.Parse(TB_Spd.Text);
+                int minHP = int.Parse(TB_HP.Text);
+                int maxAtk = 31;
+                double atkProb = CalculateProbability(minAtk, maxAtk);
+                double defProb = CalculateProbability(minDef, maxAtk);
+                double spatkProb = CalculateProbability(minSpatk, maxAtk);
+                double spdefProb = CalculateProbability(minSpdef, maxAtk);
+                double spdProb = CalculateProbability(minSpd, maxAtk);
+                double hpProb = CalculateProbability(minHP, maxAtk);
+                double combinedIVProb = atkProb * defProb * spatkProb * spdefProb * spdProb * hpProb;
+
+                string selectedNature = CB_Nature.SelectedItem.ToString();
+                double natureProb;
+                if (selectedNature == "Any")
+                {
+                    natureProb = 1;
+                }
+                else
+                {
+                    int natureValue = int.Parse(selectedNature);
+                    natureProb = 0.5 + (natureValue - 1) / 24.0;
+                }
+
+                double hiddenAbilityChance = CB_BMS.SelectedItem.ToString() == "Yes" ? 0.25 : 0.05;
+                double preferredAbilityProb;
+
+                string selectedAbility = CB_Ability.SelectedItem.ToString();
+                if (selectedAbility == "Primary Abilities Only")
+                {
+                    preferredAbilityProb = 1 - hiddenAbilityChance;
+                }
+                else if (selectedAbility == "1/2 Primary Abilities")
+                {
+                    preferredAbilityProb = (1 - hiddenAbilityChance) / 2;
+                }
+                else if (selectedAbility == "1/2 Primary Abilities + H.A.")
+                {
+                    preferredAbilityProb = ((1 - hiddenAbilityChance) / 2) + hiddenAbilityChance;
+                }
+                else if (selectedAbility == "Hidden Ability Only")
+                {
+                    preferredAbilityProb = hiddenAbilityChance;
+                }
+                else
+                {
+                    preferredAbilityProb = 1; // Assuming "Any" or invalid selection
+                }
+
+                double hiddenPowerProb;
+                string selectedHiddenPower = CB_HiddenPower.SelectedItem.ToString();
+                switch (selectedHiddenPower)
+                {
+                    case "Fighting":
+                        hiddenPowerProb = 0.078125;
+                        break;
+                    case "Flying":
+                    case "Poison":
+                    case "Ground":
+                    case "Rock":
+                    case "Ghost":
+                    case "Steel":
+                    case "Fire":
+                    case "Water":
+                    case "Electric":
+                    case "Psychic":
+                    case "Ice":
+                    case "Dragon":
+                        hiddenPowerProb = 0.0625;
+                        break;
+                    case "Bug":
+                    case "Grass":
+                        hiddenPowerProb = 0.078125;
+                        break;
+                    case "Dark":
+                        hiddenPowerProb = 0.015625;
+                        break;
+                    case "Any":
+                        hiddenPowerProb = 1;
+                        break;
+                    default:
+                        hiddenPowerProb = 1; // Default to 100% if "Any" or invalid selection
+                        break;
+                }
+
+                double totalCombinedProb = combinedIVProb * natureProb * preferredAbilityProb * hiddenPowerProb;
+                double expectedPokemon = 1 / totalCombinedProb;
+
+                RTB_Result.Text = $"Expected Number of Pokémon to Catch: {Math.Round(expectedPokemon):N0}\n";
+                BTN_MoreDetails.Text = "Details";
+                isDetailedView = false;
+            }
+            else
+            {
+                // Show detailed view
+                RTB_Result.Text += detailedResult;
+                BTN_MoreDetails.Text = "Details";
+                isDetailedView = true;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Send the Wailord PictureBox to the back
-            pictureBox1.SendToBack();
-        }
-
-        private void LBL_Atk_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TB_Def_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            CB_Ability.SelectedIndex = 0;
+            CB_Nature.SelectedIndex = 0;
+            CB_BMS.SelectedIndex = 0;
+            CB_HiddenPower.SelectedIndex = 0;
         }
     }
 }
