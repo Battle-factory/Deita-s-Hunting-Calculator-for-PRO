@@ -198,8 +198,9 @@
             this.RTB_Result.Size = new System.Drawing.Size(405, 274);
             this.RTB_Result.TabIndex = 13;
             this.RTB_Result.TabStop = false;
-            this.RTB_Result.Text = "Welcome to Deita\'s Hunting Calculator for PRO!\n\nEnter your desired stats and clic" +
-    "k \"Calculate\"!";
+            this.RTB_Result.Text = "Welcome to Deita\'s Hunting Calculator for PRO!\n\nThis app calculates the probabili" +
+    "ty of catching a Pokemon with your specified stats or greater.\n\nEnter your desir" +
+    "ed stats and click \"Calculate\"!";
             // 
             // BTN_MoreDetails
             // 
