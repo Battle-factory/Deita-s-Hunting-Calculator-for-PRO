@@ -60,6 +60,7 @@
             // 
             this.TB_Atk.BackColor = System.Drawing.SystemColors.Window;
             this.TB_Atk.Location = new System.Drawing.Point(171, 35);
+            this.TB_Atk.MaxLength = 2;
             this.TB_Atk.Name = "TB_Atk";
             this.TB_Atk.Size = new System.Drawing.Size(100, 20);
             this.TB_Atk.TabIndex = 0;
@@ -69,6 +70,7 @@
             // TB_Def
             // 
             this.TB_Def.Location = new System.Drawing.Point(171, 75);
+            this.TB_Def.MaxLength = 2;
             this.TB_Def.Name = "TB_Def";
             this.TB_Def.Size = new System.Drawing.Size(100, 20);
             this.TB_Def.TabIndex = 1;
@@ -76,6 +78,7 @@
             // TB_Spatk
             // 
             this.TB_Spatk.Location = new System.Drawing.Point(171, 155);
+            this.TB_Spatk.MaxLength = 2;
             this.TB_Spatk.Name = "TB_Spatk";
             this.TB_Spatk.Size = new System.Drawing.Size(100, 20);
             this.TB_Spatk.TabIndex = 3;
@@ -83,6 +86,7 @@
             // TB_Spd
             // 
             this.TB_Spd.Location = new System.Drawing.Point(171, 115);
+            this.TB_Spd.MaxLength = 2;
             this.TB_Spd.Name = "TB_Spd";
             this.TB_Spd.Size = new System.Drawing.Size(100, 20);
             this.TB_Spd.TabIndex = 2;
@@ -90,6 +94,7 @@
             // TB_Spdef
             // 
             this.TB_Spdef.Location = new System.Drawing.Point(171, 195);
+            this.TB_Spdef.MaxLength = 2;
             this.TB_Spdef.Name = "TB_Spdef";
             this.TB_Spdef.Size = new System.Drawing.Size(100, 20);
             this.TB_Spdef.TabIndex = 4;
@@ -97,6 +102,7 @@
             // TB_HP
             // 
             this.TB_HP.Location = new System.Drawing.Point(171, 235);
+            this.TB_HP.MaxLength = 2;
             this.TB_HP.Name = "TB_HP";
             this.TB_HP.Size = new System.Drawing.Size(100, 20);
             this.TB_HP.TabIndex = 5;
@@ -108,9 +114,9 @@
             this.LBL_Atk.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_Atk.Location = new System.Drawing.Point(35, 35);
             this.LBL_Atk.Name = "LBL_Atk";
-            this.LBL_Atk.Size = new System.Drawing.Size(48, 17);
+            this.LBL_Atk.Size = new System.Drawing.Size(64, 17);
             this.LBL_Atk.TabIndex = 6;
-            this.LBL_Atk.Text = "Attack";
+            this.LBL_Atk.Text = "Attack IV";
             // 
             // LBL_Spd
             // 
@@ -119,9 +125,9 @@
             this.LBL_Spd.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_Spd.Location = new System.Drawing.Point(35, 115);
             this.LBL_Spd.Name = "LBL_Spd";
-            this.LBL_Spd.Size = new System.Drawing.Size(50, 17);
+            this.LBL_Spd.Size = new System.Drawing.Size(66, 17);
             this.LBL_Spd.TabIndex = 7;
-            this.LBL_Spd.Text = "Speed";
+            this.LBL_Spd.Text = "Speed IV";
             // 
             // LBL_Def
             // 
@@ -130,9 +136,9 @@
             this.LBL_Def.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_Def.Location = new System.Drawing.Point(35, 75);
             this.LBL_Def.Name = "LBL_Def";
-            this.LBL_Def.Size = new System.Drawing.Size(63, 17);
+            this.LBL_Def.Size = new System.Drawing.Size(79, 17);
             this.LBL_Def.TabIndex = 8;
-            this.LBL_Def.Text = "Defense";
+            this.LBL_Def.Text = "Defense IV";
             // 
             // LBL_Spdef
             // 
@@ -141,9 +147,9 @@
             this.LBL_Spdef.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_Spdef.Location = new System.Drawing.Point(35, 195);
             this.LBL_Spdef.Name = "LBL_Spdef";
-            this.LBL_Spdef.Size = new System.Drawing.Size(115, 17);
+            this.LBL_Spdef.Size = new System.Drawing.Size(131, 17);
             this.LBL_Spdef.TabIndex = 9;
-            this.LBL_Spdef.Text = "Special Defense";
+            this.LBL_Spdef.Text = "Special Defense IV";
             // 
             // LBL_Spatk
             // 
@@ -152,9 +158,9 @@
             this.LBL_Spatk.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_Spatk.Location = new System.Drawing.Point(35, 155);
             this.LBL_Spatk.Name = "LBL_Spatk";
-            this.LBL_Spatk.Size = new System.Drawing.Size(99, 17);
+            this.LBL_Spatk.Size = new System.Drawing.Size(115, 17);
             this.LBL_Spatk.TabIndex = 10;
-            this.LBL_Spatk.Text = "Special Attack";
+            this.LBL_Spatk.Text = "Special Attack IV";
             // 
             // LBL_HP
             // 
@@ -163,9 +169,9 @@
             this.LBL_HP.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LBL_HP.Location = new System.Drawing.Point(35, 235);
             this.LBL_HP.Name = "LBL_HP";
-            this.LBL_HP.Size = new System.Drawing.Size(28, 17);
+            this.LBL_HP.Size = new System.Drawing.Size(44, 17);
             this.LBL_HP.TabIndex = 11;
-            this.LBL_HP.Text = "HP";
+            this.LBL_HP.Text = "HP IV";
             // 
             // BTN_Calculate
             // 

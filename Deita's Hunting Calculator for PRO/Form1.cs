@@ -78,6 +78,8 @@ namespace Deita_s_Hunting_Calculator_for_PRO
         private bool isDetailedView = false;
 
         // Handle button click event to calculate and display results
+        // Handle button click event to calculate and display results
+        // Handle button click event to calculate and display results
         private void BTN_Calculate_Click(object sender, EventArgs e)
         {
             if (!AreAllFieldsFilled())
@@ -153,10 +155,22 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                 case "Fighting":
                     hiddenPowerProb = 0.078125;
                     break;
-                case "Flying":case "Poison":case "Ground":case "Rock":case "Ghost":case "Steel":case "Fire":case "Water":case "Electric":case "Ice": case "Dragon":case "Psychic":
+                case "Flying":
+                case "Poison":
+                case "Ground":
+                case "Rock":
+                case "Ghost":
+                case "Steel":
+                case "Fire":
+                case "Water":
+                case "Electric":
+                case "Ice":
+                case "Dragon":
+                case "Psychic":
                     hiddenPowerProb = 0.0625;
                     break;
-                case "Bug":case "Grass":
+                case "Bug":
+                case "Grass":
                     hiddenPowerProb = 0.078125;
                     break;
                 case "Dark":
@@ -173,10 +187,11 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             double totalCombinedProb = combinedIVProb * natureProb * preferredAbilityProb * hiddenPowerProb;
 
             // Calculate the expected number of Pokémon to catch
-            double expectedPokemon = 1 / totalCombinedProb;
+            storedExpectedPokemon = 1 / totalCombinedProb; // Store the value
 
             // Store detailed results
-            detailedResult = $"\nProbability of ATK >= {minAtk}: {atkProb:P}\n" +
+            detailedResult = $"Expected Number of Pokémon to Catch: {Math.Round(storedExpectedPokemon):N0}\n\n" +
+                             $"Probability of ATK >= {minAtk}: {atkProb:P}\n" +
                              $"Probability of DEF >= {minDef}: {defProb:P}\n" +
                              $"Probability of SPATK >= {minSpatk}: {spatkProb:P}\n" +
                              $"Probability of SPDEF >= {minSpdef}: {spdefProb:P}\n" +
@@ -188,122 +203,39 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                              $"Preferred Hidden Power Probability: {hiddenPowerProb:P}\n\n" +
                              $"Total Combined Probability: {totalCombinedProb:P10}\n\n";
 
-            // Show simplified view by default
-            RTB_Result.Text = $"Expected Number of Pokémon to Catch: {Math.Round(expectedPokemon):N0}\n";
-            BTN_MoreDetails.Text = "Details";
+            // Show the current view (simplified or detailed)
+            if (isDetailedViewActive)
+            {
+                RTB_Result.Text = detailedResult;
+                BTN_MoreDetails.Text = "Simplified";
+            }
+            else
+            {
+                RTB_Result.Text = $"Expected Number of Pokémon to Catch: {Math.Round(storedExpectedPokemon):N0}\n";
+                BTN_MoreDetails.Text = "Detailed";
+            }
             BTN_MoreDetails.Visible = true;
         }
 
         // Handle the More Details button click event to display additional information
-        // Handle the More Details button click event to display additional information
         private void BTN_MoreDetails_Click(object sender, EventArgs e)
         {
-            if (isDetailedView)
+            if (isDetailedViewActive)
             {
-                // Show simplified view
-                int minAtk = int.Parse(TB_Atk.Text);
-                int minDef = int.Parse(TB_Def.Text);
-                int minSpatk = int.Parse(TB_Spatk.Text);
-                int minSpdef = int.Parse(TB_Spdef.Text);
-                int minSpd = int.Parse(TB_Spd.Text);
-                int minHP = int.Parse(TB_HP.Text);
-                int maxAtk = 31;
-                double atkProb = CalculateProbability(minAtk, maxAtk);
-                double defProb = CalculateProbability(minDef, maxAtk);
-                double spatkProb = CalculateProbability(minSpatk, maxAtk);
-                double spdefProb = CalculateProbability(minSpdef, maxAtk);
-                double spdProb = CalculateProbability(minSpd, maxAtk);
-                double hpProb = CalculateProbability(minHP, maxAtk);
-                double combinedIVProb = atkProb * defProb * spatkProb * spdefProb * spdProb * hpProb;
-
-                string selectedNature = CB_Nature.SelectedItem.ToString();
-                double natureProb;
-                if (selectedNature == "Any")
-                {
-                    natureProb = 1;
-                }
-                else
-                {
-                    int natureValue = int.Parse(selectedNature);
-                    natureProb = 0.5 + (natureValue - 1) / 24.0;
-                }
-
-                double hiddenAbilityChance = CB_BMS.SelectedItem.ToString() == "Yes" ? 0.25 : 0.05;
-                double preferredAbilityProb;
-
-                string selectedAbility = CB_Ability.SelectedItem.ToString();
-                if (selectedAbility == "Primary Abilities Only")
-                {
-                    preferredAbilityProb = 1 - hiddenAbilityChance;
-                }
-                else if (selectedAbility == "1/2 Primary Abilities")
-                {
-                    preferredAbilityProb = (1 - hiddenAbilityChance) / 2;
-                }
-                else if (selectedAbility == "1/2 Primary Abilities + H.A.")
-                {
-                    preferredAbilityProb = ((1 - hiddenAbilityChance) / 2) + hiddenAbilityChance;
-                }
-                else if (selectedAbility == "Hidden Ability Only")
-                {
-                    preferredAbilityProb = hiddenAbilityChance;
-                }
-                else
-                {
-                    preferredAbilityProb = 1; // Assuming "Any" or invalid selection
-                }
-
-                double hiddenPowerProb;
-                string selectedHiddenPower = CB_HiddenPower.SelectedItem.ToString();
-                switch (selectedHiddenPower)
-                {
-                    case "Fighting":
-                        hiddenPowerProb = 0.078125;
-                        break;
-                    case "Flying":
-                    case "Poison":
-                    case "Ground":
-                    case "Rock":
-                    case "Ghost":
-                    case "Steel":
-                    case "Fire":
-                    case "Water":
-                    case "Electric":
-                    case "Psychic":
-                    case "Ice":
-                    case "Dragon":
-                        hiddenPowerProb = 0.0625;
-                        break;
-                    case "Bug":
-                    case "Grass":
-                        hiddenPowerProb = 0.078125;
-                        break;
-                    case "Dark":
-                        hiddenPowerProb = 0.015625;
-                        break;
-                    case "Any":
-                        hiddenPowerProb = 1;
-                        break;
-                    default:
-                        hiddenPowerProb = 1; // Default to 100% if "Any" or invalid selection
-                        break;
-                }
-
-                double totalCombinedProb = combinedIVProb * natureProb * preferredAbilityProb * hiddenPowerProb;
-                double expectedPokemon = 1 / totalCombinedProb;
-
-                RTB_Result.Text = $"Expected Number of Pokémon to Catch: {Math.Round(expectedPokemon):N0}\n";
-                BTN_MoreDetails.Text = "Details";
-                isDetailedView = false;
+                // Show simplified view using the stored expectedPokemon value
+                RTB_Result.Text = $"Expected Number of Pokémon to Catch: {Math.Round(storedExpectedPokemon):N0}\n";
+                BTN_MoreDetails.Text = "Detailed";
+                isDetailedViewActive = false;
             }
             else
             {
                 // Show detailed view
-                RTB_Result.Text += detailedResult;
-                BTN_MoreDetails.Text = "Details";
-                isDetailedView = true;
+                RTB_Result.Text = detailedResult;
+                BTN_MoreDetails.Text = "Simplified";
+                isDetailedViewActive = true;
             }
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -312,5 +244,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             CB_BMS.SelectedIndex = 0;
             CB_HiddenPower.SelectedIndex = 0;
         }
+        private double storedExpectedPokemon;
+        private bool isDetailedViewActive = false;
     }
 }
