@@ -18,7 +18,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
         {
             InitializeComponent();
 
-            // Attach event handlers for input validation
+            // Attaches event handlers for input validation
             TB_Def.KeyPress += new KeyPressEventHandler(TB_Atk_KeyPress);
             TB_Def.Leave += new EventHandler(TB_Atk_Leave);
             TB_Spd.KeyPress += new KeyPressEventHandler(TB_Atk_KeyPress);
@@ -31,7 +31,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             TB_HP.Leave += new EventHandler(TB_Atk_Leave);
         }
 
-        // Validate input to ensure it's a digit
+        // Validates input to ensure it's a digit
         private void TB_Atk_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
@@ -40,7 +40,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             }
         }
 
-        // Ensure IV values are within the range 1-31
+        // Ensures IV values are within the range 1-31
         private void TB_Atk_Leave(object sender, EventArgs e)
         {
             TextBox txtBox = sender as TextBox;
@@ -58,7 +58,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             }
         }
 
-        // Check if all input fields are filled
+        // Checks if all input fields are filled, we need to know so that we can prevent the calculation and warn the user
         private bool AreAllFieldsFilled()
         {
             return !string.IsNullOrWhiteSpace(TB_Atk.Text) &&
@@ -77,9 +77,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
 
         private bool isDetailedView = false;
 
-        // Handle button click event to calculate and display results
-        // Handle button click event to calculate and display results
-        // Handle button click event to calculate and display results
+        // Handles the button click event to calculate and display results
         private void BTN_Calculate_Click(object sender, EventArgs e)
         {
             if (!AreAllFieldsFilled())
@@ -88,7 +86,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                 return;
             }
 
-            // Parse IV values from input fields
+            // Parses the IV values from input fields
             int minAtk = int.Parse(TB_Atk.Text);
             int minDef = int.Parse(TB_Def.Text);
             int minSpatk = int.Parse(TB_Spatk.Text);
@@ -97,7 +95,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             int minHP = int.Parse(TB_HP.Text);
             int maxAtk = 31;
 
-            // Calculate individual IV probabilities
+            // Calculates the individual IV probabilities
             double atkProb = CalculateProbability(minAtk, maxAtk);
             double defProb = CalculateProbability(minDef, maxAtk);
             double spatkProb = CalculateProbability(minSpatk, maxAtk);
@@ -105,10 +103,10 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             double spdProb = CalculateProbability(minSpd, maxAtk);
             double hpProb = CalculateProbability(minHP, maxAtk);
 
-            // Combine the IV probabilities by multiplying them
+            // Combines the IV probabilities by multiplying them
             double combinedIVProb = atkProb * defProb * spatkProb * spdefProb * spdProb * hpProb;
 
-            // Calculate Preferred Ability Probability based on CB_BMS and CB_Ability selections
+            // Calculates the Preferred Ability Probability based on CB_BMS and CB_Ability selections
             double hiddenAbilityChance = CB_BMS.SelectedItem.ToString() == "Yes" ? 0.25 : 0.05;
             double preferredAbilityProb;
 
@@ -131,10 +129,10 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             }
             else
             {
-                preferredAbilityProb = 1; // Assuming "Any" or invalid selection
+                preferredAbilityProb = 1; // "Any" probability is 100%
             }
 
-            // Get the selected value from CB_Nature and adjust the probability
+            // Gets the selected value from CB_Nature and adjusts the probability
             string selectedNature = CB_Nature.SelectedItem.ToString();
             double natureProb;
             if (selectedNature == "Any")
@@ -147,12 +145,14 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                 natureProb = 0.5 + (natureValue) / 25.0;
             }
 
-            // Calculate Preferred Hidden Power Probability based on CB_HiddenPower selections
+            // Calculates the Preferred Hidden Power Probability based on CB_HiddenPower selections
             double hiddenPowerProb;
             string selectedHiddenPower = CB_HiddenPower.SelectedItem.ToString();
             switch (selectedHiddenPower)
             {
                 case "Fighting":
+                case "Grass":
+                case "Bug":
                     hiddenPowerProb = 0.078125;
                     break;
                 case "Flying":
@@ -169,10 +169,6 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                 case "Psychic":
                     hiddenPowerProb = 0.0625;
                     break;
-                case "Bug":
-                case "Grass":
-                    hiddenPowerProb = 0.078125;
-                    break;
                 case "Dark":
                     hiddenPowerProb = 0.015625;
                     break;
@@ -180,16 +176,16 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                     hiddenPowerProb = 1;
                     break;
                 default:
-                    hiddenPowerProb = 1; // Default to 100% if "Any" or invalid selection
+                    hiddenPowerProb = 1; // Defaults to 100% if "Any"
                     break;
             }
-            // Calculate the total combined probability
+            // Calculates the total combined probability
             double totalCombinedProb = combinedIVProb * natureProb * preferredAbilityProb * hiddenPowerProb;
 
-            // Calculate the expected number of Pokémon to catch
+            // Calculates the expected number of Pokemon to catch
             storedExpectedPokemon = 1 / totalCombinedProb; // Store the value
 
-            // Store detailed results
+            // Stores the detailed results
             detailedResult = $"Expected Number of Pokémon to Catch: {Math.Round(storedExpectedPokemon):N0}\n\n" +
                              $"Probability of ATK >= {minAtk}: {atkProb:P}\n" +
                              $"Probability of DEF >= {minDef}: {defProb:P}\n" +
@@ -203,7 +199,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
                              $"Preferred Hidden Power Probability: {hiddenPowerProb:P}\n\n" +
                              $"Total Combined Probability: {totalCombinedProb:P10}\n\n";
 
-            // Show the current view (simplified or detailed)
+            // Shows the current view (simplified or detailed)
             if (isDetailedViewActive)
             {
                 RTB_Result.Text = detailedResult;
@@ -217,26 +213,26 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             BTN_MoreDetails.Visible = true;
         }
 
-        // Handle the More Details button click event to display additional information
+        // Handles the Details button click event to display a breakdown of all probabilities
         private void BTN_MoreDetails_Click(object sender, EventArgs e)
         {
             if (isDetailedViewActive)
             {
-                // Show simplified view using the stored expectedPokemon value
+                // Shows the simplified view using the stored expectedPokemon value
                 RTB_Result.Text = $"Expected Number of Pokémon to Catch: {Math.Round(storedExpectedPokemon):N0}\n";
                 BTN_MoreDetails.Text = "Detailed";
                 isDetailedViewActive = false;
             }
             else
             {
-                // Show detailed view
+                // Shows the detailed view
                 RTB_Result.Text = detailedResult;
                 BTN_MoreDetails.Text = "Simplified";
                 isDetailedViewActive = true;
             }
         }
 
-
+        // When the app is loaded, the comboboxes are defaulted to the first option.
         private void Form1_Load(object sender, EventArgs e)
         {
             CB_Ability.SelectedIndex = 0;
@@ -244,7 +240,9 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             CB_BMS.SelectedIndex = 0;
             CB_HiddenPower.SelectedIndex = 0;
         }
+        // Stores the ExpectedPokemon value for when the view is switched from detailed to simplified
         private double storedExpectedPokemon;
+        // Stores the state of the view
         private bool isDetailedViewActive = false;
     }
 }
