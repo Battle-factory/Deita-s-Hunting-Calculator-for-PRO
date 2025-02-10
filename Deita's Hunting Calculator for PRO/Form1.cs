@@ -189,9 +189,9 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             detailedResult = $"Expected Number of Pokémon to Catch: {Math.Round(storedExpectedPokemon):N0}\n\n" +
                              $"Probability of ATK >= {minAtk}: {atkProb:P}\n" +
                              $"Probability of DEF >= {minDef}: {defProb:P}\n" +
+                             $"Probability of SPD >= {minSpd}: {spdProb:P}\n" +
                              $"Probability of SPATK >= {minSpatk}: {spatkProb:P}\n" +
                              $"Probability of SPDEF >= {minSpdef}: {spdefProb:P}\n" +
-                             $"Probability of SPD >= {minSpd}: {spdProb:P}\n" +
                              $"Probability of HP >= {minHP}: {hpProb:P}\n\n" +
                              $"Combined IV Probability: {combinedIVProb:P6}\n" +
                              $"Preferred Ability Probability: {preferredAbilityProb:P}\n" +
