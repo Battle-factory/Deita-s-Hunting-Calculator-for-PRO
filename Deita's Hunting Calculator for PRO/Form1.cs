@@ -142,7 +142,7 @@ namespace Deita_s_Hunting_Calculator_for_PRO
             else
             {
                 int natureValue = int.Parse(selectedNature);
-                natureProb = 0.5 + (natureValue) / 25.0;
+                natureProb = 0.5 + ((natureValue) / 25.0)/2;
             }
 
             // Calculates the Preferred Hidden Power Probability based on CB_HiddenPower selections
